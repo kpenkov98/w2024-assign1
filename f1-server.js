@@ -48,19 +48,68 @@ app.get("/api/constructors", async (req, res) => {
   res.send(data);
 });
 
-//6 /api/constructors/ref 
+//6 /api/constructors/ref DONE
+app.get("/api/constructors/:ref", async (req, res) => {
+  const { data, error } = await supabase
+    .from("constructors")
+    .select(`name`)
+    .eq("constructorRef", req.params.ref);
+  res.send(data);
+});
 
-//7 /api/drivers
+//7 /api/drivers DONE
+app.get("/api/drivers", async (req, res) => {
+  const { data, error } = await supabase
+    .from("drivers")
+    .select(`forename, surname`);
+  res.send(data);
+});
 
-//8 /api/drivers/ref
+//8 /api/drivers/ref DONE
+app.get("/api/drivers/:ref", async (req, res) => {
+  const { data, error } = await supabase
+    .from("drivers")
+    .select(`forename, surname`)
+    .eq("driverRef", req.params.ref);
+  res.send(data);
+});
 
-//9 /api/drivers/search/substring
+//9 /api/drivers/search/substring DONE
+app.get("/api/drivers/search/:search", async (req, res) => {
+  const { data, error } = await supabase
+    .from("drivers")
+    .select(`surname, forename`)
+    .ilike("surname", `%${req.params.search}%`);
+  res.send(data);
+});
 
-//10 /api/drivers/race/raceId
+//10 /api/drivers/race/raceId DONE
+app.get("/api/drivers/race/:race", async (req, res) => {
+  const { data, error } = await supabase
+    .from("results")
+    .select(`drivers(surname, forename)`)
+    .eq("raceId", req.params.race);
+  res.send(data);
+});
 
-//11 /api/races/raceId
+//11 /api/races/raceId DONE
+app.get("/api/races/:race", async (req, res) => {
+  const { data, error } = await supabase
+    .from("races")
+    .select(`circuits(name, location, country)`)
+    .eq("raceId", req.params.race);
+  res.send(data);
+});
 
-//12 /api/races/season/year
+//12 /api/races/season/year DONE
+app.get("/api/races/season/:year", async (req, res) => {
+  const { data, error } = await supabase
+    .from("races")
+    .select(`name`)
+    .eq("year", req.params.year)
+    .order("round", { ascending: true });
+  res.send(data);
+});
 
 //13 /api/races/season/year/round
 
