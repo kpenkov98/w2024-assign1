@@ -50,7 +50,7 @@ app.get("/api/circuits/:ref", async (req, res) => {
     const { data, error } = await supabase
       .from("circuits")
       .select(`name`)
-      .eq("circuitRef", req.params.ref);
+      .eq("circuitRef", req.params.ref.toLowerCase());
     if (error) {
       res.status(500).send({ error: "Internal Server Error" });
     } else if (data && data.length > 0) {
@@ -108,7 +108,7 @@ app.get("/api/constructors/:ref", async (req, res) => {
     const { data, error } = await supabase
       .from("constructors")
       .select(`name`)
-      .eq("constructorRef", req.params.ref);
+      .eq("constructorRef", req.params.ref.toLowerCase());
     if (error) {
       res.status(500).send({ error: "Internal Server Error" });
     } else if (data && data.length > 0) {
@@ -147,7 +147,7 @@ app.get("/api/drivers/:ref", async (req, res) => {
     const { data, error } = await supabase
       .from("drivers")
       .select(`forename, surname`)
-      .eq("driverRef", req.params.ref);
+      .eq("driverRef", req.params.ref.toLowerCase());
     if (error) {
       res.status(500).send({ error: "Internal Server Error" });
     } else if (data && data.length > 0) {
@@ -167,7 +167,7 @@ app.get("/api/drivers/search/:search", async (req, res) => {
     const { data, error } = await supabase
       .from("drivers")
       .select(`surname, forename`)
-      .ilike("surname", `%${req.params.search}%`);
+      .ilike("surname", `%${req.params.search.toLowerCase()}%`);
     if (error) {
       res.status(500).send({ error: "Internal Server Error" });
     } else if (data && data.length > 0) {
@@ -182,12 +182,12 @@ app.get("/api/drivers/search/:search", async (req, res) => {
 });
 
 //10 /api/drivers/race/raceId DONE
-app.get("/api/drivers/race/:race", async (req, res) => {
+app.get("/api/drivers/race/:raceId", async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("results")
       .select(`drivers(surname, forename)`)
-      .eq("raceId", req.params.race);
+      .eq("raceId", req.params.raceId);
     if (error) {
       res.status(500).send({ error: "Internal Server Error" });
     } else if (data && data.length > 0) {
@@ -202,12 +202,12 @@ app.get("/api/drivers/race/:race", async (req, res) => {
 });
 
 //11 /api/races/raceId DONE
-app.get("/api/races/:race", async (req, res) => {
+app.get("/api/races/:raceId", async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("races")
       .select(`circuits(name, location, country)`)
-      .eq("raceId", req.params.race);
+      .eq("raceId", req.params.raceId);
     if (error) {
       res.status(500).send({ error: "Internal Server Error" });
     } else if (data && data.length > 0) {
@@ -269,7 +269,7 @@ app.get("/api/races/circuits/:ref", async (req, res) => {
     const { data, error } = await supabase
       .from("circuits")
       .select(`races(raceId, year, name)`)
-      .eq("circuitRef", req.params.ref)
+      .eq("circuitRef", req.params.ref.toLowerCase())
       .order("year", { referencedTable: "races", ascending: true });
     if (error) {
       res.status(500).send({ error: "Internal Server Error" });
@@ -290,7 +290,7 @@ app.get("/api/races/circuits/:ref/season/:year/:yearTo/", async (req, res) => {
     const { data, error } = await supabase
       .from("circuits")
       .select(`races(raceId, year, name)`)
-      .eq("circuitRef", req.params.ref)
+      .eq("circuitRef", req.params.ref.toLowerCase())
       .gte("races.year", req.params.year)
       .lte("races.year", req.params.yearTo)
       .order("year", { referencedTable: "races", ascending: true });
@@ -347,7 +347,7 @@ app.get("/api/results/driver/:ref", async (req, res) => {
     const { data, error } = await supabase
       .from("drivers")
       .select(`forename, surname, results(*)`)
-      .eq("driverRef", req.params.ref);
+      .eq("driverRef", req.params.ref.toLowerCase());
     if (error) {
       res.status(500).send({ error: "Internal Server Error" });
     } else if (data && data.length > 0) {
@@ -362,21 +362,21 @@ app.get("/api/results/driver/:ref", async (req, res) => {
 });
 
 //18 /api/results/driver/ref/seasons/start/end DONE
-app.get("/api/results/driver/:ref/seasons/:start/:end", async (req, res) => {
+app.get("/api/results/driver/:ref/seasons/:year/:yearTo", async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("results")
       .select(`drivers!inner(forename, surname), races!inner(year), *`)
-      .eq("drivers.driverRef", req.params.ref)
-      .gte("races.year", req.params.start)
-      .lte("races.year", req.params.end);
+      .eq("drivers.driverRef", req.params.ref.toLowerCase())
+      .gte("races.year", req.params.year)
+      .lte("races.year", req.params.yearTo);
     if (error) {
       res.status(500).send({ error: "Internal Server Error" });
     } else if (data && data.length > 0) {
       //year check
       res.send(data);
     } else {
-      if (req.params.start > req.params.end) {
+      if (req.params.year > req.params.yearTo) {
         res.status(999).send({
           error:
             "Invalid year input: please make sure first year is less than or equal to last",
