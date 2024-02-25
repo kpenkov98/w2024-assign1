@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "assignment for web3 by kirillp",
   "main": "f1-server.js",
-  "scripts": { "start": "node server.js" },
+  "scripts": { "start": "node f1-server.js" },
   "repository": {
     "type": "git",
     "url": "https://github.com/kpenkov98/w2024-assign1"
