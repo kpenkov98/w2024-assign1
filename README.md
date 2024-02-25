@@ -23,10 +23,10 @@ Test Links:
 15. https://w2024-assign1.onrender.com/api/races/circuits/monza/season/2020/2023
 16. https://w2024-assign1.onrender.com/api/results/1000
 17. https://w2024-assign1.onrender.com/api/results/driver/hamilton
-18. https://w2024-assign1.onrender.com//api/results/driver/hamilton/seasons/2020/2023
-19. https://w2024-assign1.onrender.com//api/qualifying/1000
-20. https://w2024-assign1.onrender.com//api/standings/1000/drivers
-21. https://w2024-assign1.onrender.com//api/standings/1000/constructors
+18. https://w2024-assign1.onrender.com/api/results/driver/hamilton/seasons/2020/2023
+19. https://w2024-assign1.onrender.com/api/qualifying/1000
+20. https://w2024-assign1.onrender.com/api/standings/1000/drivers
+21. https://w2024-assign1.onrender.com/api/standings/1000/constructors
 
 API Functionality
 You must create the following APIs with the specified routes and functionality. The returned data must be JSON format.
