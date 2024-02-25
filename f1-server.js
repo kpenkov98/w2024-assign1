@@ -166,19 +166,51 @@ app.get("/api/results/driver/:ref", async (req, res) => {
   res.send(data);
 });
 
-//18 /api/results/driver/ref/seasons/start/end
+//18 /api/results/driver/ref/seasons/start/end DONE
 app.get("/api/results/driver/:ref/seasons/:start/:end", async (req, res) => {
   const { data, error } = await supabase
-    .from("drivers")
-    .select(`forename, surname, races(year), results(*)`)
-    .eq("driverRef", req.params.ref)
+    .from("results")
+    .select(`drivers!inner(forename, surname), races!inner(year), *`)
+    .eq("drivers.driverRef", req.params.ref)
     .gte("races.year", req.params.start)
     .lte("races.year", req.params.end);
   res.send(data);
 });
 
-//19 /api/qualifying/raceId
+//19 /api/qualifying/raceId DONE
+app.get("/api/qualifying/:raceId", async (req, res) => {
+  const { data, error } = await supabase
+    .from("qualifying")
+    .select(
+      `position, drivers(driverRef, code, forename, surname), 
+    races(name, round, year, date)
+    constructors(name, constructorRef, nationality)`
+    )
+    .eq("raceId", req.params.raceId)
+    .order("position", { ascending: true });
+  res.send(data);
+});
 
-//20 /api/standings/raceId/drivers
+//20 /api/standings/raceId/drivers DONE
+app.get("/api/standings/:raceId/drivers", async (req, res) => {
+  const { data, error } = await supabase
+    .from("driver_standings")
+    .select(
+      `position, races(name, round, year, date), drivers(driverRef, code, forename, surname)`
+    )
+    .eq("raceId", req.params.raceId)
+    .order("position", { ascending: true });
+  res.send(data);
+});
 
-//21 /api/standings/raceId/constructors
+//21 /api/standings/raceId/constructors DONE
+app.get("/api/standings/:raceId/constructors", async (req, res) => {
+  const { data, error } = await supabase
+    .from("constructor_standings")
+    .select(
+      `position, races(name, round, year, date), constructors(name, constructorRef, nationality)`
+    )
+    .eq("raceId", req.params.raceId)
+    .order("position", { ascending: true });
+  res.send(data);
+});
