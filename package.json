@@ -6,7 +6,7 @@
   "scripts": { "start": "node server.js" },
   "repository": {
     "type": "git",
-    "url": "\u0016\u0016"
+    "url": "https://github.com/kpenkov98/w2024-assign1"
   },
   "author": "Kirill Penkov",
   "license": "ISC",
