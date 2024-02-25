@@ -1,9 +1,34 @@
 # COMP 4513 (Winter 2024)
+
 ### Assignment #1: Node, SQL (via supabase)
 
 **Please view `COMP4513 Assignment 1.pdf` for instructions**
 
-  API Functionality
+Test Links:
+
+1. https://w2024-assign1.onrender.com/api/seasons
+2. https://w2024-assign1.onrender.com/api/circuits
+3. https://w2024-assign1.onrender.com/api/circuits/ref
+4. https://w2024-assign1.onrender.com/api/circuits/season/year
+5. https://w2024-assign1.onrender.com/api/constructors
+6. https://w2024-assign1.onrender.com/api/constructors/ref
+7. https://w2024-assign1.onrender.com/api/drivers
+8. https://w2024-assign1.onrender.com/api/drivers/ref
+9. https://w2024-assign1.onrender.com/api/drivers/search/substring
+10. https://w2024-assign1.onrender.com/api/drivers/race/raceId
+11. https://w2024-assign1.onrender.com/api/races/raceId
+12. https://w2024-assign1.onrender.com/api/races/season/year
+13. https://w2024-assign1.onrender.com/api/races/season/year/round
+14. https://w2024-assign1.onrender.com/api/races/circuits/ref
+15. https://w2024-assign1.onrender.com/api/races/circuits/ref/season/start/end
+16. https://w2024-assign1.onrender.com/api/results/raceId
+17. https://w2024-assign1.onrender.com/api/results/driver/ref
+18. https://w2024-assign1.onrender.com//api/results/driver/ref/seasons/start/end
+19. https://w2024-assign1.onrender.com//api/qualifying/raceId
+20. https://w2024-assign1.onrender.com//api/standings/raceId/drivers
+21. https://w2024-assign1.onrender.com//api/standings/raceId/constructors
+
+API Functionality
 You must create the following APIs with the specified routes and functionality. The returned data must be JSON format.
 
 /api/seasons
