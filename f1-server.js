@@ -1,3 +1,6 @@
+if (typeof globalThis === "undefined") {
+  globalThis = global;
+}
 const express = require("express");
 const supa = require("@supabase/supabase-js");
 const app = express();
