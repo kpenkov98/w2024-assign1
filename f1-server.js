@@ -111,17 +111,71 @@ app.get("/api/races/season/:year", async (req, res) => {
   res.send(data);
 });
 
-//13 /api/races/season/year/round
+//13 /api/races/season/year/round DONE
+app.get("/api/races/season/:year/:round", async (req, res) => {
+  const { data, error } = await supabase
+    .from("races")
+    .select(`name`)
+    .eq("year", req.params.year)
+    .eq("round", req.params.round);
+  res.send(data);
+});
 
-//14 /api/races/circuits/ref
+//14 /api/races/circuits/ref DONE
+app.get("/api/races/circuits/:ref", async (req, res) => {
+  const { data, error } = await supabase
+    .from("circuits")
+    .select(`races(raceId, year, name)`)
+    .eq("circuitRef", req.params.ref)
+    .order("year", { referencedTable: "races", ascending: true });
+  res.send(data);
+});
 
-//15 /api/races/circuits/ref/season/start/end
+//15 /api/races/circuits/ref/season/start/end DONE
+app.get("/api/races/circuits/:ref/season/:year/:yearTo/", async (req, res) => {
+  const { data, error } = await supabase
+    .from("circuits")
+    .select(`races(raceId, year, name)`)
+    .eq("circuitRef", req.params.ref)
+    .gte("races.year", req.params.year)
+    .lte("races.year", req.params.yearTo)
+    .order("year", { referencedTable: "races", ascending: true });
+  res.send(data);
+});
 
-//16 /api/results/raceId
+//16 /api/results/raceId DONE
+app.get("/api/results/:raceId", async (req, res) => {
+  const { data, error } = await supabase
+    .from("results")
+    .select(
+      `grid, drivers(driverRef, code, forename, surname), 
+    races(name, round, year, date)
+    constructors(name, constructorRef, nationality)`
+    )
+    .eq("raceId", req.params.raceId)
+    .order("grid", { ascending: true });
+  res.send(data);
+});
 
-//17 /api/results/driver/ref
+//17 /api/results/driver/ref DONE
+app.get("/api/results/driver/:ref", async (req, res) => {
+  const { data, error } = await supabase
+    .from("drivers")
+    .select(`forename, surname, results(*)`)
+    .eq("driverRef", req.params.ref);
+  res.send(data);
+});
 
 //18 /api/results/driver/ref/seasons/start/end
+app.get("/api/results/driver/:ref/seasons/:start/:end", async (req, res) => {
+  const { data, error } = await supabase
+    .from("drivers")
+    .select(`forename, surname, races(year), results(*)`)
+    .eq("driverRef", req.params.ref)
+    .gte("races.year", req.params.start)
+    .lte("races.year", req.params.end);
+  res.send(data);
+});
 
 //19 /api/qualifying/raceId
 
